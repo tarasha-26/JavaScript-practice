@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>learn js</title>
+</head>
+<body>
+    <h1>understanding js</h1>
+    <button id="click-me" onclick="alert('i m clicked')">
+        Click me</button>
+
+<script>
+let product={
+    name: 'Jeans',
+    size: 'S',
+    fit: 'Slim fit'
+};
+let copyproduct= product;
+console.log(product);
+copyproduct.fit= 'Regular fit';
+console.log(product);
+copyproduct.size ='L';
+console.log(product);
+
+let obj={
+    message: 'Good job',
+    status: 'Complete',
+};
+console.log(obj);
+let{message,status}= obj;
+console.log(message);
+console.log(status);
+
+</script>
+</body>
+</html>
