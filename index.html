@@ -3,35 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>learn js</title>
+    <title>Cricket Game</title>
+    <link rel="stylesheet" href="cricket.css">
+    <style>
+       
+
+    </style>
 </head>
 <body>
-    <h1>understanding js</h1>
-    <button id="click-me" onclick="alert('i m clicked')">
-        Click me</button>
+    <h1>BAT BALL STUMP GAME</h1>
 
-<script>
-let product={
-    name: 'Jeans',
-    size: 'S',
-    fit: 'Slim fit'
-};
-let copyproduct= product;
-console.log(product);
-copyproduct.fit= 'Regular fit';
-console.log(product);
-copyproduct.size ='L';
-console.log(product);
+    
+    <button class="choice-button" onclick="
+    let compChoice= generateCompChoice();
+    let resultmsg= getResult ('Bat', compChoice)
+    showResult ('Bat', compChoice, resultmsg);
+    "><img src="images/bat.jpg" alt="Bat" class="choice-image">
+</button>
 
-let obj={
-    message: 'Good job',
-    status: 'Complete',
-};
-console.log(obj);
-let{message,status}= obj;
-console.log(message);
-console.log(status);
+    <button class="choice-button" onclick="
+    compChoice=generateCompChoice();
+    resultmsg= getResult('Ball', compChoice)
+    showResult ('Ball', compChoice, resultmsg);
+    "><img src="images/ball.webp" alt="Ball" class="choice-image">
+</button>
 
-</script>
+    <button class="choice-button" onclick="
+    compChoice=generateCompChoice();
+    resultmsg= getResult('Stump', compChoice)
+    showResult ('Stump', compChoice, resultmsg);
+    "><img src="images/stmp.jpg" alt="Stump" class="choice-image">
+</button>
+
+    <h3 id="user-move"></h3>
+    <h3 id="computer-move"></h3>
+    <h3 id="result"></h3>
+    <h3 id="score"></h3>
+    <button onclick="localStorage.clear()
+    resetScore();
+    ">Reset</button>
+
+    <script>
+        let scoreStr= localStorage.getItem('Score');
+        let score;
+        resetScore(scoreStr);
+        function resetScore(scoreStr){
+             score= scoreStr? JSON.parse(scoreStr): {
+                win: 0,
+                lost: 0,
+                tie: 0,
+        };
+            score.displayScore= function(){
+                return `Score: Won:${score.win}, Lost:${score.lost}, Tie:${score.tie}`;
+            };
+            showResult();
+        }
+
+        function generateCompChoice(){
+            let compChoice;
+            let randomNum= Math.random()*3;
+            if(randomNum>0 && randomNum<=1) return 'Bat';
+            else if(randomNum>1 && randomNum <=2) return 'Ball';
+            else return 'Stump';
+        }
+
+        function getResult(userMove, compMove){
+            if(userMove === 'Bat'){
+                if(compMove==='Ball'){
+                    score.win++;
+                    return 'user won.';
+                }else if( compMove==='Bat'){
+                    score.tie++;
+                    return 'its a tie.'
+                }else {
+                    score.lost++;
+                    return 'computer won';
+                }
+            }else if(userMove==='Ball'){
+                if (compMove=== 'Ball'){
+                    score.tie++;
+                    return 'Its a tie';
+                }else if(compMove==='Bat'){
+                    score.lost++;
+                    return `computer won.`;
+                }else {
+                    score.win++;
+                     return `user won`;
+                }
+            }else{
+                if (compMove=== 'Ball'){
+                    score.lost++;
+                    return 'computer won.';
+                }else if(compMove==='Bat'){
+                    score.win++;
+                    return `user won.`;
+                }else {
+                    score.tie++;
+                    return `Its a tie`;
+                }
+            }
+        }
+
+        function showResult(userMove, compMove, result ){
+
+            localStorage.setItem('Score', JSON.stringify(score));
+            document.querySelector('#user-move').innerText= 
+                userMove?`You have chosen ${userMove}`: '';
+            document.querySelector('#computer-move').innerText= 
+                compMove?`computer have chosen ${compMove}`: '';
+            document.querySelector('#result').innerText= 
+                result?? '';
+            document.querySelector('#score').innerText= score.displayScore();
+
+        }
+    </script>
+
+    
 </body>
 </html>
